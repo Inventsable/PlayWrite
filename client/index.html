@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Raleway:300,400,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+    <!-- Reset -->
+    <link href="./reset.css" type="text/css" rel="stylesheet">
+
+    <!-- CodeMirror -->
+    <link href="./CodeMirror/lib/codemirror.css" type="text/css" rel="stylesheet">
+    <script src="./CodeMirror/lib/codemirror.js"></script>
+    <!-- <link rel="stylesheet" href="./CodeMirror/theme/darcula.css"> -->
+    <link rel="stylesheet" href="./CodeMirror/addon/scroll/simplescrollbars.css">
+    <link rel="stylesheet" href="./CodeMirror/theme/ILST.css">
+    <script src="./CodeMirror/lib/codemirror.js"></script>
+    <!-- <script src="./CodeMirror/keymap/sublime.js"></script> -->
+    <script src="./CodeMirror/mode/javascript/javascript.js"></script>
+    <!-- <script src="./CodeMirror/mode/extendScript/extendScript.js"></script> -->
+    <script src="./CodeMirror/addon/mode/overlay.js"></script>
+    <script src="./CodeMirror/addon/hint/javascript-hint.js"></script>
+    <script src="./CodeMirror/addon/selection/mark-selection.js"></script>
+    <script src="./CodeMirror/addon/selection/active-line.js"></script>
+    <script src="./CodeMirror/addon/edit/matchbrackets.js"></script>
+    <script src="./CodeMirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="./CodeMirror/addon/edit/closebrackets.js"></script>
+    <script src="./CodeMirror/addon/comment/comment.js"></script>
+    <!-- <script src="./CodeMirror/addon/search/searchcursor.js"></script> -->
+
+    <!-- Custom Stylesheets -->
+    <link href="./adobeStyle.css" type="text/css" rel="stylesheet">
+    <link href="./style.css" type="text/css" rel="stylesheet">
+    <title>PlayWrite</title>
+  </head>
+  <body>
+
+  <div id="content" class="container-fluid">
+    <div id="top-Toolbar" class="adobe-toolbar">
+      <div class="adobe-btn">
+        <span class="fa fa-magic fa-lg"></span>
+      </div>
+      <div class="adobe-btn">
+        <span class="fa fa-file fa-lg"></span>
+      </div>
+      <div class="adobe-btn">
+        <span class="fa fa-clipboard fa-lg"></span>
+      </div>
+      <input class="adobe-input adobe-input-2x" type="text" name="getProp" value="Buttons do nothing">
+    </div>
+
+    <div id="input" class="textArea">
+      <textarea rows="10" cols="30" id="cm" name="cm">test</textarea>
+    </div>
+
+    <div class="adobe-footer">
+      <div id="strip" class="adobe-swatchStrip">
+        <!-- <button
+          class="jscolor {value:'FD336E', valueElement:'chosen-value', onFineChange:'setSyntaxColor(this)'} adobe-swatch"
+          style="width:.5rem">
+        </button> -->
+        <div id="placeHold"></div>
+      </div>
+      <div class="adobe-toolbar">
+        <!-- <div class="adobe-btn-select adobe-hide">
+          <span>Javascript</span>
+        </div> -->
+        <div class="adobe-btn-select adobe-focus">
+          <span>Extendscript</span>
+        </div>
+      </div>
+      <!-- <input class="adobe-input adobe-input-lg no-input" type="text" name="runMode" value="Extendscript" onmousedown='return false;' onselectstart='return false;'> -->
+    </div>
+  </div>
+
+<!-- Scripts -->
+  <script src="./jscolor-2.0.5/jscolor.js"></script>
+  <script src="./CSInterface.js" type="text/javascript"></script>
+  <script src="./exLibs.js" type="text/javascript"></script>
+  <script src="./adobeMirror.js" type="text/javascript"></script>
+  <!-- <script src="./cookies.js" type="text/javascript"></script> -->
+  <script src="./main.js" type="text/javascript"></script>
+  <script src="./flyoutmenu.js" type="text/javascript"></script>
+  </body>
+</html>

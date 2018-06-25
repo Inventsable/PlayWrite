@@ -1,0 +1,58 @@
+html {
+  font-size: 12px;
+  font-family: Roboto, sans-serif;
+}
+
+body {
+  margin: 0px;
+  overflow: hidden;
+}
+
+.textArea {
+  border: 1.5px solid transparent;
+  border-radius: 2px;
+  outline-offset: 2px;
+}
+
+.textArea:focus {
+  border-color: white;
+}
+
+.CodeMirror-linenumber {
+  padding: 0 3px 0 0px;
+}
+
+
+/* .CodeMirror::-webkit-scrollbar {
+  background-color: red;
+} */
+
+.CodeMirror-selectedtext {
+  color: black !important;
+  background: Navy !important;
+}
+
+.cm-adobe {color: red;}
+.cm-DOM {color: orange;}
+.cm-prop {color: red;}
+.cm-window {color: violet;}
+.cm-comment {color: #808080}
+
+/* .CodeMirror-selected {
+  background-color: blue !important;
+} */
+
+/* .CodeMirror-selectedtext {
+  background: #d7d489 !important;
+} */
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+  background: #000;
+}
+
+::selection {
+  background: #328efe; /* WebKit/Blink Browsers */
+}
+::-moz-selection {
+  background: #328efe; /* Gecko Browsers */
+}

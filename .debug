@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionList>
+    <Extension Id="com.playwrite.panel">
+        <HostList>
+            <!-- <Host Name="PPRO" Port="6060"/> -->
+            <Host Name="ILST" Port="6060"/>
+            <Host Name="AEFT" Port="6061"/>
+            <Host Name="PHXS" Port="6062"/>
+        </HostList>
+    </Extension>
+</ExtensionList>
