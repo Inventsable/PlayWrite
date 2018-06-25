@@ -180,9 +180,9 @@ CodeMirror.fromTextArea(document.getElementById('cm'), {
 	// extraKeys: {"Ctrl-Enter": "toggleComment"}
 	extraKeys: {
 			"Shift-Backspace": "delWordLeft",
-			"Ctrl-Shift-Backspace": "delLineLeft",
-			"Ctrl-Alt-ArrowLeft": "goWordLeft",
-			"Ctrl-Alt-ArrowRight": "goWordRight",
+			// "Ctrl-Shift-Backspace": "delLineLeft",
+			// "Ctrl-Alt-ArrowLeft": "goWordLeft",
+			// "Ctrl-Alt-ArrowRight": "goWordRight",
 			"Alt-Enter": function(cm) {
 					runScript();
 			},
