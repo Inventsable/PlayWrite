@@ -1,7 +1,3 @@
-alert(app.selection.length)
+var doc = app.activeDocument.name;
 
-app.doScript("Exclude (selection)","Default Actions")
-
-
-// commands are same as .kys https://forums.adobe.com/thread/1405101
-app.executeMenuCommand("preference")
+console(doc);

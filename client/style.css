@@ -1,3 +1,10 @@
+.cm-adobe {color: red;}
+.cm-DOM {color: orange;}
+.cm-prop {color: red;}
+.cm-window {color: violet;}
+.cm-func {color: blue;}
+.cm-comment {color: #808080}
+
 html {
   font-size: 12px;
   font-family: Roboto, sans-serif;
@@ -8,7 +15,58 @@ body {
   overflow: hidden;
 }
 
+.topGroup, .bottomGroup {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* #top-Toolbar {
+  display: none;
+} */
+
+.console-Wrap{
+  width: 100%;
+}
+
+.getBar {
+  border-radius: 2px;
+  width: 100%;
+  height: 1rem;
+  margin: .5rem 0px;
+  border: 1.5px solid transparent;
+  background-color: #232323;
+  cursor: pointer;
+}
+
+#input {
+  width: 100%;
+}
+
+#altMirror {
+  position: absolute;
+  border: 2px solid black;
+  height: 2rem;
+  width: auto;
+  z-index: 1000;
+}
+
+.getBar:hover{
+  background-color: #d65858;
+}
+
+#consoleText {
+  font-family: Roboto Mono, monospace;
+}
+
 .textArea {
+  margin-top: .5rem;
   border: 1.5px solid transparent;
   border-radius: 2px;
   outline-offset: 2px;
@@ -32,11 +90,7 @@ body {
   background: Navy !important;
 }
 
-.cm-adobe {color: red;}
-.cm-DOM {color: orange;}
-.cm-prop {color: red;}
-.cm-window {color: violet;}
-.cm-comment {color: #808080}
+
 
 /* .CodeMirror-selected {
   background-color: blue !important;

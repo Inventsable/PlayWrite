@@ -156,6 +156,20 @@ body {
   margin: 0px 0px;
 }
 
+.adobe-console {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin: .5rem 0px .5rem 0px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-radius: 2px 2px 2px 2px;
+  padding: .25rem 1rem .25rem .5rem;
+  height: 1.75rem;
+  user-select: none;
+  cursor: default;
+}
+
 .no-input {
   user-select: none;
   cursor: default;
@@ -169,6 +183,10 @@ body {
   border-width: 1.5px;
   border-radius: 2px 0px 0px 2px;
   padding: .25rem .5rem;
+}
+
+.adobe-input-full {
+  width: 100%;
 }
 
 .adobe-input:focus {

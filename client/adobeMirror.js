@@ -19,6 +19,9 @@ focusBtn = [].slice.call(focusBtn);
 var hoverBtn = document.getElementsByClassName('adobe-hover');
 hoverBtn = [].slice.call(hoverBtn);
 
+var consoles = document.getElementsByClassName('adobe-console');
+consoles = [].slice.call(consoles);
+
 var btnCorner = document.getElementsByClassName('adobe-btn-corner');
 btnCorner = [].slice.call(btnCorner);
 var btnUpDown = document.getElementsByClassName('adobe-upDown');
@@ -49,9 +52,10 @@ function callDoc() {
 	cs.evalScript(`doesExist()`, function(e){
 		if (e) {
       docExist = true;
-      console.log(e);
+      // console.log(e);
+      cs.evalScript(`logData('${sandPath}')`)
 			cs.evalScript(`docName()`, function(b){
-        console.log(b);
+        // console.log(b);
         var newData = b.split(",");
 				appInfo.doc = newData[0];
         appInfo.path = newData[1];
@@ -223,6 +227,7 @@ function updateThemeWithAppSkinInfo() {
     htmlBody[0].style.fontSize = appInfo.baseFontSize;
     htmlBody[0].style.fontFamily = appInfo.baseFontFamily;
     htmlBody[0].style.color = appInfo.baseFontColor;
+    consoles[0].style.backgroundColor = appInfo.selectColor;
     reColorUI();
   }
 
@@ -386,5 +391,6 @@ function toHex(color, delta) {
 function onAppThemeColorChanged(event) {
     var skinInfo = JSON.parse(window.__adobe_cep__.getHostEnvironment()).appSkinInfo;
     logSkin(skinInfo);
+    reskinCodeMirror();
     console.log(`Theme changed to ${appInfo.theme}`);
 }

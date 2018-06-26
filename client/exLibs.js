@@ -115,6 +115,13 @@ function loadJSX(fileName) {
 		console.log("loading " + extensionRoot + fileName);
 }
 
+function loadPW(fileName) {
+    var csInterface = new CSInterface();
+    var extensionRoot = csInterface.getSystemPath(SystemPath.EXTENSION) + "/log/Sandbox/";
+    csInterface.evalScript('$.evalFile("' + extensionRoot + fileName + '")');
+		console.log("loading " + extensionRoot + fileName);
+}
+
 //  https://stackoverflow.com/a/6211660
 function isEven(n) {
 	 return n % 2 == 0;
