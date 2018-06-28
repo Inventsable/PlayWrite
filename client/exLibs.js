@@ -115,7 +115,7 @@ function loadJSX(fileName) {
 		console.log("loading " + extensionRoot + fileName);
 }
 
-function loadPW(fileName) {
+function loadNewNote(fileName) {
     var csInterface = new CSInterface();
     var extensionRoot = csInterface.getSystemPath(SystemPath.EXTENSION) + "/log/Sandbox/";
     csInterface.evalScript('$.evalFile("' + extensionRoot + fileName + '")');

@@ -5,14 +5,7 @@
 //   file.close();
 // }
 
-var pathTo = {
-  sand: "none"
-};
 
-function logData(sandPath){
-  pathTo.sand = sandPath;
-  // alert(pathTo.sand)
-}
 //
 // function logInfo(path, Txt){
 // var file = new File(path + "result.jsx");

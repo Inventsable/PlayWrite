@@ -44,6 +44,14 @@
               <Height>380</Height>
               <Width>260</Width>
             </Size>
+            <MaxSize>
+              <Height>440</Height>
+              <Width>600</Width>
+            </MaxSize>
+            <MinSize>
+              <Height>380</Height>
+              <Width>260</Width>
+            </MinSize>
           </Geometry>
           <Icons />
         </UI>

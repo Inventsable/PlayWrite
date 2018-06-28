@@ -8,6 +8,9 @@ var strip = document.getElementById('strip');
 var fileBtn = document.getElementById('fileBtn');
 var pryBar = document.getElementById('getBar');
 
+var consoleText = document.getElementById('consoleText');
+var consoleIcon = document.getElementById('consoleIcon');
+
 var syntaxColor = {
 	default: appInfo.baseFontColor,
 	string1: "#d7d489",
@@ -26,6 +29,7 @@ var syntaxColor = {
 
 
 
+
 function setSyntaxColor(picker){
 	var newColor  = '#' + picker.toString();
 	console.log(newColor);
@@ -38,8 +42,8 @@ function logSyntaxColor(){
 	syntaxColor.default = appInfo.baseFontColor;
 	var jsSheet = document.styleSheets[7];
 	var jsRules = jsSheet.cssRules;
-	console.log(jsSheet);
-	console.log(jsRules);
+	// console.log(jsSheet);
+	// console.log(jsRules);
 	// var jsCSScolor = jsRules[9].style.color;
 	jsSheet.cssRules[1].style.color = syntaxColor.number;
 	jsSheet.cssRules[2].style.color = syntaxColor.keyword;
@@ -52,7 +56,7 @@ function logSyntaxColor(){
 
 	var sheet = document.styleSheets[9];
 	var rules = sheet.cssRules;
-	console.log(rules);
+	// console.log(rules);
 	// var CSScolor = rules[8].style.color;
 
 	// sheet.cssRules[5].style.color = syntaxColor.selectedTextColor;
@@ -76,11 +80,13 @@ buildUI();
 logSkin(appSkin);
 logSyntaxColor();
 reskinCodeMirror();
+initError();
 loadBorderWidth();
 loadJSX(`json2.jsx`);
 loadJSX(`Console.jsx`);
 console.log(`Loading for ${appInfo.name}`);
 
+// highlightLine(1);
 
 for (var index in syntaxColor) {
 	var currColor = syntaxColor[index]
@@ -91,7 +97,6 @@ for (var index in syntaxColor) {
 	newSwatch.addEventListener("click", function(e){
 		csInterface.evalScript("colorFromApp()", function(a){
 			e.target.style.backgroundColor = "#" + a;
-			// recolorSyntax();
 			console.log(a);
 		});
 	}, false)
@@ -108,14 +113,36 @@ function recolorSyntax(){
 var swatches = document.getElementsByClassName('adobe-swatch');
 swatches = [].slice.call(swatches);
 
-
 swatches.forEach(function(v,i,a) {
 
 });
 
 
+
+
+function updateConsole(type, data){
+	consoleIcon.classList.remove("fa-terminal", "fa-exclamation-circle");
+	if (type === 'read') {
+		consoleIcon.classList.add("fa-terminal");
+		consoleIcon.style.color = appInfo.baseFontColor;
+		consoleText.style.color = appInfo.baseFontColor;
+	} else if (type === 'alert') {
+		consoleIcon.classList.add("fa-exclamation-circle");
+		consoleIcon.style.color = "#D65858";
+		consoleText.style.color = "#D65858";
+	}
+	consoleText.textContent = data;
+}
+
+function runScript(){
+	try {
+		cs.evalScript(`runScript('${hostPath}scribe.jsx')`);
+	} catch(e){
+		updateConsole('alert', e);
+	}
+}
+
 function scribe(params){
-	// var path = logPath + "scribe.js";
 	var path = hostPath + "scribe.jsx";
 	if (params === 'write') {
 		data.text = cm.getValue();
@@ -135,10 +162,26 @@ function scribe(params){
 }
 
 
+var panelNumber;
 
 var newText = "app";
 
-fileBtn.addEventListener("click", function(){
+fileBtn.addEventListener("click", function(e){
+	writeNewScript();
+}, false)
+
+function writeNewScript(){
+	try {
+		var result = window.cep.fs.writeFile(`${sandPath}${numPanels}.jsx`, doc.getValue());
+		loadNewNote(`${numPanels}.jsx`)
+		cm.setValue("\r\r\r")
+	} catch(e){
+		console.log(e);
+	}
+}
+
+
+function writeToSandbox(){
 	try {
 		var clear = "";
 		var result = window.cep.fs.writeFile(`${sandPath}result.jsx`, clear);
@@ -150,7 +193,8 @@ fileBtn.addEventListener("click", function(){
 	} catch(e) {
 		console.log("Something went wrong");
 	}
-}, false)
+}
+
 
 // pryBar.addEventListener("mouseover", function(e){
 // 	toggleCode(false);
@@ -173,9 +217,7 @@ fileBtn.addEventListener("click", function(){
 // 	}
 // }
 
-function runScript(){
-	cs.evalScript(`runScript('${hostPath}scribe.jsx')`);
-}
+
 
 // displayConsole();
 

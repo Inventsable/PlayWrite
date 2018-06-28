@@ -23,6 +23,7 @@
     <script src="./CodeMirror/mode/javascript/javascript.js"></script>
     <!-- <script src="./CodeMirror/mode/extendScript/extendScript.js"></script> -->
     <script src="./CodeMirror/addon/mode/overlay.js"></script>
+    <script src="./CodeMirror/addon/display/panel.js"></script>
     <script src="./CodeMirror/addon/hint/javascript-hint.js"></script>
     <script src="./CodeMirror/addon/selection/mark-selection.js"></script>
     <script src="./CodeMirror/addon/selection/active-line.js"></script>
@@ -35,6 +36,7 @@
     <!-- Custom Stylesheets -->
     <link href="./adobeStyle.css" type="text/css" rel="stylesheet">
     <link href="./style.css" type="text/css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jshint/2.9.5/jshint.min.js"></script>
     <title>PlayWrite</title>
   </head>
   <body>
@@ -50,17 +52,22 @@
 
     <!-- <div class="bottomGroup"> -->
       <div class="console-Wrap">
-        <div class="adobe-console"><span id="consoleText">Console</span></div>
+        <div class="adobe-console">
+          <span id="consoleIcon" class="fa fa-terminal fa-lg"></span>
+          <div id="consoleText">Console</div>
+        </div>
       </div>
       <div class="adobe-footer">
         <div id="strip" class="adobe-swatchStrip">
           <div id="placeHold"></div>
         </div>
-        <div class="adobe-btn">
-          <span id="fileBtn" class="fa fa-file fa-lg"></span>
-        </div>
-        <div class="adobe-btn">
-          <span id="testBtn" class="fa fa-magic fa-lg"></span>
+        <div class="adobe-toolbar" style="justify-content: flex-end;">
+          <div class="adobe-btn">
+            <span id="fileBtn" class="fa fa-file fa-lg"></span>
+          </div>
+          <div class="adobe-btn">
+            <span id="testBtn" class="fa fa-magic fa-lg"></span>
+          </div>
         </div>
       </div>
     <!-- </div> -->

@@ -28,11 +28,6 @@ function doesExist() {
   }
 }
 
-function runScript(path) {
-  $.evalFile(path)
-}
-
-
 function colorFromApp() {
   if (app.isFillActive()) {
     defaultColor = fillColorFromAI();

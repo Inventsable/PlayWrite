@@ -15,10 +15,42 @@ body {
   overflow: hidden;
 }
 
+.border {
+  border: 1px solid #f7f7f7;
+}
+.add-panel {
+  background: orange;
+  padding: 3px 6px;
+  color: white !important;
+  border-radius: 3px;
+}
+.add-panel, .remove-panel {
+  cursor: pointer;
+}
+.remove-panel {
+  float: right;
+}
+.panel {
+  background: #fcfcfc;
+  padding: 3px 7px;
+  font-size: 1rem;
+}
+.panel.top, .panel.after-top {
+  border-bottom: 1px solid #ddd;
+}
+.panel.bottom, .panel.before-bottom {
+  border-top: 1px solid #ddd;
+}
+
+
 .topGroup, .bottomGroup {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+}
+
+#note {
+  color: white;
 }
 
 #content {
@@ -33,6 +65,10 @@ body {
 
 .console-Wrap{
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  /* height: auto; */
+  justify-content: space-between;
 }
 
 .getBar {
@@ -61,8 +97,30 @@ body {
   background-color: #d65858;
 }
 
+.highlighted {
+  background-color: #d65858;
+}
+
+.errorLine, .error {
+  margin: .25rem 0px;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 1rem;
+  /* background-color: #d65858; */
+  font-weight: 700;
+  color: #d65858;
+}
+
+.errorIcon {
+  margin: auto .5rem;
+}
+
+
 #consoleText {
   font-family: Roboto Mono, monospace;
+  max-width: 90%;
+  height: auto;
+  /* border: 2px solid red; */
 }
 
 .textArea {
@@ -70,6 +128,7 @@ body {
   border: 1.5px solid transparent;
   border-radius: 2px;
   outline-offset: 2px;
+  height: auto;
 }
 
 .textArea:focus {
@@ -85,11 +144,19 @@ body {
   background-color: red;
 } */
 
+#cm {
+  height: 10rem;
+  display: hide;
+}
+
+.CodeMirror {
+  /* height: auto; */
+}
+
 .CodeMirror-selectedtext {
   color: black !important;
   background: Navy !important;
 }
-
 
 
 /* .CodeMirror-selected {
