@@ -12,10 +12,10 @@ Panel text editor via [CodeMirror](http://codemirror.net/) for Illustrator, Phot
 
 [See eventManager for demonstration of Events](https://github.com/Contactician/eventManager):
 
-Event `com.playwrite.console` evaluates and displays `data` in the panel console.
+Event `'com.playwrite.console'` evaluates and displays `data` in the panel console.
 
-Event `com.playwrite.error` parses error messages from `data` and updates console.
+Event `'com.playwrite.error'` parses error messages from `data` and updates console.
 
-Event `com.playwrite.write` inserts `data` at the current cursor location.
+Event `'com.playwrite.write'` inserts `data` at the current cursor location.
 
 Currently only runs .jsx with limited syntax highlighting via CodeMirror's Javascript mode, has [internal hotkeys](http://codemirror.net/doc/manual.html#commands) and multiple [addons](http://codemirror.net/doc/manual.html#addons).
