@@ -41,15 +41,15 @@
           <Geometry>
             <Size>
               <!-- 7) -->
-              <Height>380</Height>
-              <Width>260</Width>
+              <Height>280</Height>
+              <Width>320</Width>
             </Size>
             <MaxSize>
-              <Height>440</Height>
+              <Height>280</Height>
               <Width>600</Width>
             </MaxSize>
             <MinSize>
-              <Height>380</Height>
+              <Height>280</Height>
               <Width>260</Width>
             </MinSize>
           </Geometry>

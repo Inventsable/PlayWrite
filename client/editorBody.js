@@ -7,16 +7,16 @@ var inputBox = document.getElementById('input');
 var consoleText = document.getElementById('consoleText');
 var consoleIcon = document.getElementById('consoleIcon');
 
+// var panel = document.getElementsByClassName('panel');
+// panel = [].slice.call(panel);
+// var addedPanel = document.getElementsByClassName('add-panel');
+// addedPanel = [].slice.call(addedPanel);
+// var removedPanel = document.getElementsByClassName('remove-panel');
+// removedPanel = [].slice.call(removedPanel);
+
 CodeMirror.defineMode("mixedOverlay", function(config, parserConfig) {
   return CodeMirror.overlayMode(CodeMirror.getMode(config, "javascript"), CodeMirror.getMode(config, "adobe"));
 });
-
-function highlightLine(lineNumber) {
-    var actualLineNumber = lineNumber - 1;
-    console.log(doc);
-    doc.addLineClass(actualLineNumber, 'gutter', 'error');
-}
-
 
 
 CodeMirror.defineMode("adobe", function(config, parserConfig) {
@@ -69,16 +69,17 @@ CodeMirror.fromTextArea(document.getElementById('cm'), {
 	scrollbarStyle: "simple",
 	autofocus: true,
 	autoCloseBrackets: true,
+	matchBrackets: true,
   // viewportMargin: Infinity,
 	// addModeClass: true,
 	styleSelectedText: true,
 	// keyMap: "sublime",
-	// extraKeys: {"Ctrl-Enter": "toggleComment"}
 	extraKeys: {
-			"Shift-Backspace": "delGroupLeft",
-      "Shift-Delete": "delWordRight",
+			"Shift-Backspace": "delWordBefore",
+      "Shift-Delete": "delWordAfter",
       "Tab": "defaultTab",
-			"Ctrl-Shift-Backspace": "delLineLeft",
+      "Ctrl-Enter": "toggleComment",
+			"Ctrl-Shift-Backspace": "killLine",
 			"Alt-Ctrl-ArrowLeft": "goWordLeft",
 			"Alt-Ctrl-ArrowRight": "goWordRight",
 			"Alt-Enter": function(cm) {
@@ -87,9 +88,15 @@ CodeMirror.fromTextArea(document.getElementById('cm'), {
 	}
 });
 
-var doc = cm.getDoc();
+var pwDOC = cm.getDoc();
 
-// doc.markText({line: 1, ch: 0}, {line: 1, ch: 50}, {className: "highlighted"});
+// pwDOC.markText({line: 1, ch: 0}, {line: 1, ch: 50}, {className: "highlighted"});
+function highlightLine(lineNumber) {
+    var actualLineNumber = lineNumber - 1;
+    // console.log(doc);
+    pwDOC.addLineClass(actualLineNumber, 'gutter', 'error');
+}
+
 
 cm.setSize("100%", 200);
 cm.on("change", function() {
@@ -103,14 +110,10 @@ cm.on("blur", function() {
 	inputBox.style.borderColor = appInfo.borderColor;
 });
 
-// cm.on("keydown", function(event) {
-// 	console.log(event);
-// });
-
 cm.on("keyup", function (cm, event) {
 			 if (event.key === 'Enter') {
 				 if (event.shiftKey === true && event.ctrlKey === true) {
-           addPanel("top");
+           addPanel("bottom");
 				 }
 			 } else if (event.key === 'Delete') {
  				 if (event.shiftKey === true && event.ctrlKey === true) {
@@ -121,20 +124,23 @@ cm.on("keyup", function (cm, event) {
  			 }
 		});
 
+inputBox.addEventListener("keyup", function(event){
+  if (event.key === 'Backspace') {
+   if (event.ctrlKey === true && event.shiftKey === true) {
+      console.log("deleted");
+   }
+ }
+}, true);
 
 
 
+// UI
 var mirror = document.getElementsByClassName("CodeMirror-code");
 var mirrorBody = document.getElementsByClassName('CodeMirror');
 var gutterBody = document.getElementsByClassName('CodeMirror-gutters');
-// var mirrorSizer = document.getElementsByClassName('CodeMirror-sizer');
-// var lineSizer = document.getElementsByClassName('CodeMirror-linenumbers');
-// mirrorSizer[0].style.marginLeft = "21px";
-// lineSizer[0].style.width = "20px";
 
 function reskinCodeMirror(){
 	inputBox.style.borderRadius = "2px 2px 0px 0px";
-	// consoles[0].style.borderTopWidth = "0px";
 	consoleText.style.color = appInfo.baseFontColor;
   consoleIcon.style.color = appInfo.baseFontColor;
 	mirrorBody[0].style.backgroundColor = appInfo.inputBGColorIdle;
@@ -142,6 +148,7 @@ function reskinCodeMirror(){
 	gutterBody[0].style.backgroundColor = appInfo.selectColor;
 }
 
+// LINEWIDGET
 function updateHints(hint) {
   cm.operation(function(){
     for (var i = 0; i < widgets.length; ++i) {
@@ -189,50 +196,175 @@ function initError() {
 
 var testBtn = document.getElementById('testBtn');
 testBtn.addEventListener("click", function(e){
-  addPanel("top");
+  addPanel("bottom");
 }, false)
 
 
+function insertText(data) {
+	var cursor = pwDOC.getCursor();
+	var line = pwDOC.getLine(cursor.line);
+	var pos = {
+		line: cursor.line
+	};
+	if (line.length === 0) {
+		pwDOC.replaceRange(data, pos);
+	} else {
+		var result = insert(pwDOC.getValue(), pwDOC.getCursor().ch, data)
+		pwDOC.setValue(result);
+	}
+	cm.execCommand('goLineDown');
+	// cm.execCommand('newlineAndIndent');
+}
+
+
+function insert(str, index, value) {
+    return str.substr(0, index) + value + str.substr(index);
+}
+
+
+// PANELS
 var numPanels = 0;
 var panels = {};
 var editor;
+var isWriting = true;
+var lastText;
 
 function makePanel(where) {
   var node = document.createElement("div");
   var id = ++numPanels;
-  var widget, close, label;
+  var widget, close, label, prefix, container;
 
   node.id = "panel-" + id;
   node.className = "panel " + where;
-  close = node.appendChild(document.createElement("a"));
-  close.setAttribute("title", "Remove me!");
-  close.setAttribute("class", "remove-panel");
-  close.textContent = "✖";
-  CodeMirror.on(close, "click", function() {
-    panels[node.id].clear();
-    --numPanels;
-    console.log(numPanels);
+  container = node.appendChild(document.createElement("div"))
+  container.setAttribute("class", "textWrap")
+  edit = container.appendChild(document.createElement("a"));
+  edit.setAttribute("title", "Edit");
+  edit.id = id;
+  edit.setAttribute("class", "panel-side edit-panel fa fa-edit");
+  CodeMirror.on(edit, "click", function(e) {
+    reloadNote(e.target.id);
+    isWriting = !isWriting;
+    if (isWriting) {
+      // console.log(pwDOC);
+      var result = window.cep.fs.writeFile(`${sandPath}${e.target.id}.jsx`, pwDOC.getValue());
+      pwDOC.setValue("Testing off")
+    } else {
+      lastText = pwDOC.getValue();
+      var result = window.cep.fs.readFile(`${sandPath}${e.target.id}.jsx`);
+      pwDOC.setValue("Testing on")
+    }
+    // console.log(e.target.id);
+		console.log(lastText);
+    // console.log(`${result[0].data}`);
+    // console.log(allFiles[needle]);
+    //
+    // console.log(`${isWriting}`);
+    // console.log(pwDOC.getValue());
   });
-  label = node.appendChild(document.createElement("span"));
+  prefix = container.appendChild(document.createElement("span"));
+  label = container.appendChild(document.createElement("span"));
   label.textContent = previewText();
+  prefix.textContent = previewTextPrefix() + " ";
+  prefix.classList.add("prefix");
+  prefix.classList.add(prev.current);
+  label.classList.add("data");
+
+  close = node.appendChild(document.createElement("a"));
+  close.setAttribute("title", "Remove");
+  close.setAttribute("class", "panel-side remove-panel fa fa-trash");
+  // close.textContent = "✖";
+  close.id = id;
+  CodeMirror.on(close, "click", function(e) {
+    panels[node.id].clear();
+    // console.log(e);
+    // resetAndReloadScripts(numPanels, e.target.id);
+    --numPanels;
+    // console.log(numPanels);
+  });
+
   return node;
 }
 function addPanel(where) {
-  makeString();
+
   var node = makePanel(where);
   panels[node.id] = cm.addPanel(node, {position: where, stable: false});
   writeNewScript();
 }
 
+var bgVars = [];
+var bgFuncs = [];
+var hasVar = false;
+var hasFuncs = false;
+
+var prev = {
+  data: "none",
+  hasVar: false,
+  hasFuncs: false,
+  prefix: "none",
+  suffix: "none",
+  current: "none"
+};
+
+function previewPrefix(params){
+  prev.current = params;
+  prev.prefix = params;
+}
+
+function previewTextPrefix(){
+  return prev.current;
+}
 
 function previewText(){
-  var text = doc.getValue().trim();
-  var textPreview = text.split("()")[0] + "()";
+  var textPreview;
+  var text = pwDOC.getValue().trim();
+  if (text.includes("function")) {
+    if (text.includes("()")){
+      textPreview = text.replace("function","").split("()")[0] + "()";
+    } else {
+      var allParams = text.substring(
+          text.indexOf("(") + 1,
+          text.indexOf(")")
+      );
+      var param = allParams.split(",");
+      console.log(allParams);
+      console.log(param);
+      textPreview = text.substring(text.indexOf(" "), text.indexOf("(") + 1) + allParams + ")";
+    }
+    console.log("Has function");
+    previewPrefix("function");
+  } else if (text.includes("var")) {
+    if (text.lastIndexOf("var") < 3) {
+      textPreview = text.split(" =")[0].replace("var", "");
+      hasVar = true;
+      previewPrefix("var");
+    } else {
+      hasVar = true;
+      var split = text.split("\n");
+      var index = 0;
+      split.forEach(function(e){
+        ++index;
+        var head = e.replace("var", "").trim();
+        head = head.split(" =")[0];
+        if (e.length > 1) {
+          if (index > 1) {
+            bgVars.push(" " + head);
+          } else {
+            bgVars.push(head);
+          }
+        }
+      });
+      previewPrefix("vars");
+      textPreview = bgVars.join();
+    }
+
+  }
+  prev.data = textPreview;
   return textPreview;
 }
 
 function makeString() {
-  var val = doc.getValue().trim();
+  var val = pwDOC.getValue().trim();
   console.log(val);
   // val.replace(/\r?\n?/g, '');
   // console.log(val);
@@ -240,13 +372,7 @@ function makeString() {
   // console.log(val);
 }
 
-// mirror[0].addEventListener("keyup", function(event){
-// 	if (event.key === 'ArrowLeft') {
-// 		if (event.altKey === true) {
-// 			cm.execCommand('goWordLeft');
-// 		}
-// 	}
-// }, false);
+
 
 
 // cm.on("keyup", function (cm, event) {

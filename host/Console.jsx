@@ -15,31 +15,31 @@ var err = {
   ifIs: 0
 };
 
-dispatchCustomJSXEvent(err, "com.playwrite.init")
+JSXEvent(err, "com.playwrite.init")
 
 function runScript(path) {
   try {
   $.evalFile(path)
   } catch (e) {
-    dispatchCustomJSXEvent(e.name + "," + e.line + "," + e + "," + e.message, "com.playwrite.error")
+    JSXEvent(e.name + "," + e.line + "," + e + "," + e.message, "com.playwrite.error")
   }
 }
 
 function console(evalObj){
   try {
-    dispatchCustomJSXEvent(evalObj, "com.playwrite.console")
+    JSXEvent(evalObj, "com.playwrite.console")
 
   } catch(e) {
-    dispatchCustomJSXEvent(e, "com.playwrite.error")
+    JSXEvent(e, "com.playwrite.error")
   }
 }
 
 
-function dispatchCustomJSXEvent(payload, eventType) {
+function JSXEvent(payload, eventType) {
   try {
     var xLib = new ExternalObject("lib:\PlugPlugExternalObject");
   } catch (e) {
-    dispatchCustomJSXEvent(e, "com.playwrite.error")
+    JSXEvent(e, "com.playwrite.error")
   }
   if (xLib) {
   var eventObj = new CSXSEvent();
@@ -57,10 +57,29 @@ function dispatchCustomJSXEvent(payload, eventType) {
 //   } else {
 //     if (Math.random() > 0.5) {
 //       // payload is a regular string
-//       dispatchCustomJSXEvent(somePayload, "ConsoleEvent");
+//       JSXEvent(somePayload, "ConsoleEvent");
 //     } else {
 //       // payload is a stringified function to be evaluated
-//       dispatchCustomJSXEvent(someOtherPayload, "Custom Event 2");
+//       JSXEvent(someOtherPayload, "Custom Event 2");
 //     }
 //   }
 // }
+
+/// https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+function componentToHex(c) {
+    var hex = c.toString(16);
+    return hex.length == 1 ? "0" + hex : hex;
+}
+
+function rgbToHex(r, g, b) {
+    return componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}

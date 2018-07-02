@@ -24,7 +24,7 @@ body {
 }
 
 .adobe-footer {
-  display: flex;
+  display: none;
   justify-content: space-between;
   flex-wrap: wrap;
   margin: .325rem 0px;

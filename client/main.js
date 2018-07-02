@@ -3,7 +3,8 @@ var appSkin = csInterface.hostEnvironment.appSkinInfo;
 var sysPath = csInterface.getSystemPath(SystemPath.EXTENSION);
 var logPath = sysPath + "/log/";
 var hostPath = sysPath + "/host/";
-var sandPath = sysPath + "/log/Sandbox/";
+var domPath = logPath + "/dom/";
+var sandPath = logPath + "/Sandbox/";
 var strip = document.getElementById('strip');
 var fileBtn = document.getElementById('fileBtn');
 var pryBar = document.getElementById('getBar');
@@ -12,63 +13,68 @@ var consoleText = document.getElementById('consoleText');
 var consoleIcon = document.getElementById('consoleIcon');
 
 var syntaxColor = {
-	default: appInfo.baseFontColor,
+	default: "b7b7b7",
+	global: "#d7d489",
 	string1: "#d7d489",
-	function: "#1092E2",
-	variable: "#A9B7C6",
+	function: "#3AC936",
+	variable: "#B442BA",
 	keyword: "#B442BA",
 	number: "#FFC66D",
 	app: "#D65858",
 	property: "#D65858",
-	dialogue: "#3CA1D3",
+	dialogue: "#3AC936",
 	comment: "#808080",
 	// selectedTextColor: "black !important",
 	// selectedTextBG: "Navy !important",
 };
 
 
-
-
-
-function setSyntaxColor(picker){
-	var newColor  = '#' + picker.toString();
-	console.log(newColor);
-}
-
-// console.log(CSScolor);
-
 function logSyntaxColor(){
-	console.log(syntaxColor);
 	syntaxColor.default = appInfo.baseFontColor;
 	var jsSheet = document.styleSheets[7];
 	var jsRules = jsSheet.cssRules;
-	// console.log(jsSheet);
 	// console.log(jsRules);
-	// var jsCSScolor = jsRules[9].style.color;
 	jsSheet.cssRules[1].style.color = syntaxColor.number;
 	jsSheet.cssRules[2].style.color = syntaxColor.keyword;
 	jsSheet.cssRules[3].style.color = syntaxColor.function;
-	jsSheet.cssRules[4].style.color = syntaxColor.variable;
+	jsSheet.cssRules[4].style.color = syntaxColor.baseFontColor;
 	jsSheet.cssRules[9].style.color = syntaxColor.string1;
 	jsSheet.cssRules[11].style.color = syntaxColor.comment;
-	// console.log(jsRules);
 
+	jsSheet.cssRules[19].style.color = syntaxColor.baseFontColor;
+	jsSheet.cssRules[26].style.color = syntaxColor.baseFontColor;
+	jsSheet.cssRules[26].style.borderColor = appInfo.activeColor;
 
-	var sheet = document.styleSheets[9];
+	var syntaxSheet = document.styleSheets[11];
+	var syntaxRules = syntaxSheet.cssRules;
+	syntaxSheet.cssRules[0].style.color = syntaxColor.global;
+	syntaxSheet.cssRules[1].style.color = syntaxColor.app;
+	syntaxSheet.cssRules[2].style.color = syntaxColor.property;
+	syntaxSheet.cssRules[3].style.color = syntaxColor.dialogue;
+	syntaxSheet.cssRules[4].style.color = syntaxColor.dialogue;
+	syntaxSheet.cssRules[5].style.color = syntaxColor.comment;
+
+	syntaxSheet.cssRules[9].style.color = appInfo.variable;
+	syntaxSheet.cssRules[10].style.color = appInfo.function;
+
+	syntaxSheet.cssRules[6].style.color = appInfo.baseFontColor;
+	syntaxSheet.cssRules[6].style.background = appInfo.selectColor;
+	syntaxSheet.cssRules[8].style.borderTopColor = appInfo.borderColor;
+	// console.log(syntaxRules);
+
+	var sheet = document.styleSheets[10];
 	var rules = sheet.cssRules;
 	// console.log(rules);
-	// var CSScolor = rules[8].style.color;
-
 	// sheet.cssRules[5].style.color = syntaxColor.selectedTextColor;
 	// sheet.cssRules[5].style.background = syntaxColor.selectedTextBG;
-	// sheet.cssRules[6].style.color = syntaxColor.adobe;
-	sheet.cssRules[1].style.color = syntaxColor.app;
-	sheet.cssRules[2].style.color = syntaxColor.property;
-	sheet.cssRules[3].style.color = syntaxColor.dialogue;
-	sheet.cssRules[4].style.color = syntaxColor.dialogue;
-	sheet.cssRules[5].style.color = syntaxColor.comment;
+
+	// sheet.cssRules[8].style.borderColor = appInfo.borderColor;
+	// sheet.cssRules[12].style.color = appInfo.baseFontColor;
+	// sheet.cssRules[12].style.background = appInfo.selectColor;
+	// sheet.cssRules[14].style.borderTopColor = appInfo.borderColor;
+
 	// console.log(rules);
-	console.log(syntaxColor);
+	// console.log(syntaxColor);
 }
 
 scribe('read');
@@ -84,9 +90,12 @@ initError();
 loadBorderWidth();
 loadJSX(`json2.jsx`);
 loadJSX(`Console.jsx`);
-console.log(`Loading for ${appInfo.name}`);
+loadJSX(`Scanner.jsx`);
+csInterface.evalScript(`logScan('${sysPath}')`, catchFiles)
 
-// highlightLine(1);
+
+console.log(`Loading for ${appInfo.name}`);
+console.log(appInfo);
 
 for (var index in syntaxColor) {
 	var currColor = syntaxColor[index]
@@ -118,7 +127,9 @@ swatches.forEach(function(v,i,a) {
 });
 
 
-
+function catchFiles(msg){
+	console.log(msg);
+}
 
 function updateConsole(type, data){
 	consoleIcon.classList.remove("fa-terminal", "fa-exclamation-circle");
@@ -161,9 +172,39 @@ function scribe(params){
 	// console.log(data);
 }
 
+// loadDOM(appInfo.name);
+// console.log(ADOM.app.activeDocument);
+
+function loadDOM(filename){
+    var fileref=document.createElement('script')
+    fileref.setAttribute("type","text/javascript")
+    fileref.setAttribute("src", "../log/dom/" + filename + ".js")
+    if (typeof fileref!="undefined")
+        document.getElementsByTagName("head")[0].appendChild(fileref)
+}
+
+
+
+
+function getDOM(){
+		var nScript = document.head.appendChild(document.createElement("script"));
+		nScript
+		var path = domPath + appInfo.name + ".js";
+		var result = window.cep.fs.readFile(path);
+		// console.log(result.data);
+		// return result
+		result = result.data.toString();
+		console.log(result);
+
+		var theInstructions = "alert('Hello World'); var x = 100";
+		var F=new Function(result);
+		return(F());
+}
+
 
 var panelNumber;
-
+var allFiles = [];
+var needle;
 var newText = "app";
 
 fileBtn.addEventListener("click", function(e){
@@ -172,13 +213,65 @@ fileBtn.addEventListener("click", function(e){
 
 function writeNewScript(){
 	try {
-		var result = window.cep.fs.writeFile(`${sandPath}${numPanels}.jsx`, doc.getValue());
+		var result = window.cep.fs.writeFile(`${sandPath}${numPanels}.jsx`, pwDOC.getValue().trim());
 		loadNewNote(`${numPanels}.jsx`)
 		cm.setValue("\r\r\r")
 	} catch(e){
 		console.log(e);
 	}
 }
+
+
+function reloadNote(which){
+	try {
+		csInterface.evalScript(`readFiles()`, function(evt){			// console.log(evt);
+			return window.cep.fs.readFile(`${sandPath}${i}.jsx`);
+		})
+	} catch(e){
+		console.log(e);
+	}
+	// console.log(needle);
+	// console.log(allFiles[needle].data);
+}
+
+
+function reloadNotes(which){
+	try {
+		while (allFiles.length > 0) {
+			allFiles.pop();
+		}
+		csInterface.evalScript(`readFiles()`, function(evt){			// console.log(evt);
+			for (var i = 1; i <= evt; i++) {
+				// allFiles.push(window.cep.fs.readFile(`${sandPath}${i}.jsx`));
+				if (i == which) {
+					console.log(`matching ${i}`);
+					return window.cep.fs.readFile(`${sandPath}${i}.jsx`);
+				}
+			}
+			// console.log(allFiles[0].data);
+		})
+	} catch(e){
+		console.log(e);
+	}
+	// console.log(needle);
+	// console.log(allFiles[needle].data);
+}
+
+
+// csInterface.evalScript(`unScript('${allFiles[needle].data}')`);
+// uneval(allFiles[needle].data);
+
+// allFiles.pop()
+// for (var i = 1; i <= evt; i++) {
+// 	allFiles.push(window.cep.fs.readFile(`${sandPath}${i}.jsx`));
+// 	if (i == which) {
+// 		console.log(`matching ${i}`);
+// 		var needle = i - 1;
+// 	}
+// }
+// var result = window.cep.fs.writeFile(`${sandPath}${which}.jsx`, "");
+// loadNewNote(`${numPanels}.jsx`)
+// console.log(result);
 
 
 function writeToSandbox(){

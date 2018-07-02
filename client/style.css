@@ -1,10 +1,3 @@
-.cm-adobe {color: red;}
-.cm-DOM {color: orange;}
-.cm-prop {color: red;}
-.cm-window {color: violet;}
-.cm-func {color: blue;}
-.cm-comment {color: #808080}
-
 html {
   font-size: 12px;
   font-family: Roboto, sans-serif;
@@ -24,22 +17,45 @@ body {
   color: white !important;
   border-radius: 3px;
 }
-.add-panel, .remove-panel {
+.add-panel, .remove-panel, .edit-panel {
   cursor: pointer;
 }
 .remove-panel {
-  float: right;
+  /* float: right; */
 }
 .panel {
-  background: #fcfcfc;
+  font-family: Roboto Mono, monospace;
   padding: 3px 7px;
   font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
-.panel.top, .panel.after-top {
-  border-bottom: 1px solid #ddd;
+
+
+.panel-side {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  cursor: pointer;
 }
-.panel.bottom, .panel.before-bottom {
-  border-top: 1px solid #ddd;
+
+.edit-panel {
+  width: auto;
+  height: auto;
+  margin-right: .5rem;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.data {
+  font-size: .8rem;
 }
 
 

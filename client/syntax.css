@@ -1,0 +1,19 @@
+.cm-adobe {color: red}
+.cm-DOM {color: orange}
+.cm-prop {color: red}
+.cm-window {color: violet}
+.cm-func {color: blue}
+.cm-comment {color: #808080}
+
+.panel {background: #fcfcfc}
+.panel.top, .panel.after-top {border-bottom: 1px solid #ddd}
+.panel.bottom, .panel.before-bottom {border-top: 1px solid #ddd}
+
+.var, .vars {color: purple}
+.function {color: green}
+.prefix {
+  font-weight: bold;
+  font-size: .8rem;
+  margin-left: .25rem;
+  margin-right: .375rem;
+}

@@ -6,15 +6,7 @@
 // }
 
 
-//
-// function logInfo(path, Txt){
-// var file = new File(path + "result.jsx");
-// file.open("e", "TEXT", "????");
-// file.seek(0,2);
-// $.os.search(/windows/i)  != -1 ? file.lineFeed = 'windows'  : file.lineFeed = 'macintosh';
-// file.writeln(Txt);
-// file.close();
-// };
+
 
 
 // var testInfo = $.includePath;
