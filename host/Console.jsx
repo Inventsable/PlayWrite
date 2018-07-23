@@ -17,6 +17,14 @@ var err = {
 
 JSXEvent(err, "com.playwrite.init")
 
+var resetText = 'JSXEvent(\'text\', \'com.playwrite.rewrite\')';
+
+function resetPlay(){
+  JSXEvent(resetText, 'com.playwrite.rewrite')
+  JSXEvent('PlayWrite for code', 'com.playwrite.console')
+}
+
+
 function runScript(path) {
   try {
   $.evalFile(path)

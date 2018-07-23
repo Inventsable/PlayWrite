@@ -288,6 +288,11 @@ function writeToSandbox(){
 	}
 }
 
+function rewriteAll(newText) {
+	cm.setValue(newText);
+}
+
+
 
 // pryBar.addEventListener("mouseover", function(e){
 // 	toggleCode(false);

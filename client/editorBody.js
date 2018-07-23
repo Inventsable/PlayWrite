@@ -22,9 +22,9 @@ CodeMirror.defineMode("mixedOverlay", function(config, parserConfig) {
 CodeMirror.defineMode("adobe", function(config, parserConfig) {
   var aDOM = ["app", "documents", "document", "activeDocument", "layers"
               , "layer", "artboard", "artboards"];
-  var aProp = ["name", "length", "selection", "color", "red", "green", "blue"];
-  var aWindow = ["alert", "confirm"];
-  var aFunc = ["console", "test"];
+  var aProp = ["name", "length", "selection", "color", "red", "green", "blue", "fill", "stroke", "linecap", "linejoin", "miterlimit", 'circle', 'svg ', '/svg', 'xmlns', 'viewBox', 'title', 'polyline', 'points', 'x1', 'x2', 'y1', 'y2', 'cx', 'cy', ' r', 'x=', ' y', 'width', 'height', 'path', ' d', 'rect', 'xmlns'];
+  var aWindow = ["alert", "confirm", 'id=', 'class=', 'JSXEvent', 'resetPlay'];
+  var aFunc = ["console"];
 
   var adobeOverlay = {
     token: function(stream, state) {
@@ -89,6 +89,11 @@ CodeMirror.fromTextArea(document.getElementById('cm'), {
 });
 
 var pwDOC = cm.getDoc();
+
+function getCurrentCode(){
+	return cm.getDoc().value;
+}
+
 
 // pwDOC.markText({line: 1, ch: 0}, {line: 1, ch: 50}, {className: "highlighted"});
 function highlightLine(lineNumber) {

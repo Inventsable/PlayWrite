@@ -16,6 +16,18 @@
     insertText(evt.data)
   });
 
+  csInterface.addEventListener('com.playwrite.code', function(evt){
+    updateConsole('read', 'Snatching code');
+    // insertText(evt.data)
+    dispatchEvent(getCurrentCode(), 'console');
+  });
+
+  csInterface.addEventListener('com.playwrite.rewrite', function(evt){
+    updateConsole('read', 'Rewriting...');
+    rewriteAll(evt.data);
+    // insertText(evt.data)
+  });
+
   csInterface.addEventListener("com.playwrite.console", function(evt) {
     console.log('Data from JSX: ' + evt.data);
     if (evt.data === 'EvalScript error.') {
@@ -62,6 +74,12 @@
       updateHints(err);
   });
 
+
+  function dispatchEvent(name, data) {
+    var event = new CSEvent(name, 'APPLICATION');
+    event.data = data;
+    csInterface.dispatchEvent(event);
+  }
 
   function removejsx(filename, filetype){
       var targetelement=(filetype=="js")? "script" : (filetype=="css")? "link" : "none" //determine element type to create nodelist from
