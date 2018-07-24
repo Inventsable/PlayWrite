@@ -16,10 +16,28 @@
     insertText(evt.data)
   });
 
+
+  csInterface.addEventListener('com.playwrite.answer', function(evt) {
+    console.log(evt.data);
+    // var parsed = JSON.parse(evt.data);
+    // console.log(parsed);
+  });
+
+  function chainEvent(data, name) {
+    csInterface.evalScript(`JSXEvent('${data}', '${name}')`)
+  }
+
   csInterface.addEventListener('com.playwrite.code', function(evt){
-    updateConsole('read', 'Snatching code');
-    // insertText(evt.data)
-    dispatchEvent(getCurrentCode(), 'console');
+    return currentCode();
+  });
+
+  csInterface.addEventListener('com.playwrite.call', function(evt){
+    var data = currentCode();
+    // console.log(data);
+    var strData = JSON.stringify(data);
+    // console.log('First event');
+    // var data = 'Second event';
+    chainEvent(strData, 'com.playwrite.answer')
   });
 
   csInterface.addEventListener('com.playwrite.rewrite', function(evt){
@@ -29,7 +47,7 @@
   });
 
   csInterface.addEventListener("com.playwrite.console", function(evt) {
-    console.log('Data from JSX: ' + evt.data);
+    // console.log('Data from JSX: ' + evt.data);
     if (evt.data === 'EvalScript error.') {
       updateConsole('alert', evt.data);
     } else {
@@ -77,6 +95,12 @@
 
   function dispatchEvent(name, data) {
     var event = new CSEvent(name, 'APPLICATION');
+    event.data = data;
+    csInterface.dispatchEvent(event);
+  }
+
+  function globalEvent(name, data) {
+    var event = new CSEvent(name, 'GLOBAL');
     event.data = data;
     csInterface.dispatchEvent(event);
   }

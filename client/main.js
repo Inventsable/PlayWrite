@@ -188,7 +188,6 @@ function loadDOM(filename){
 
 function getDOM(){
 		var nScript = document.head.appendChild(document.createElement("script"));
-		nScript
 		var path = domPath + appInfo.name + ".js";
 		var result = window.cep.fs.readFile(path);
 		// console.log(result.data);
