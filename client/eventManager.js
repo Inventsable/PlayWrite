@@ -40,8 +40,19 @@
     chainEvent(strData, 'com.playwrite.answer')
   });
 
+  var modeCount = 0;
+
   csInterface.addEventListener('com.playwrite.rewrite', function(evt){
+    var modes = ['javascript', 'mixedOverlay', 'htmlmixed', 'css'];
     updateConsole('read', 'Rewriting...');
+    console.log(evt);
+    console.log(evt.data);
+
+    // var thisMode = modes[modeCount];
+    // if (modeCount > 3)
+    //   modeCount = 0;
+    // changeMode(thisMode);
+    // modeCount++;
     rewriteAll(evt.data);
     // insertText(evt.data)
   });

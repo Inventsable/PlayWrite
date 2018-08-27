@@ -19,6 +19,18 @@ CodeMirror.defineMode("mixedOverlay", function(config, parserConfig) {
 });
 
 
+
+  // var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  //   mode: "scheme",
+  //   lineNumbers: true
+  // });
+
+
+function changeMode(mode) {
+	 cm.setOption('mode', {name: mode})
+}
+
+
 CodeMirror.defineMode("adobe", function(config, parserConfig) {
   var aDOM = ["app", "documents", "document", "activeDocument", "layers"
               , "layer", "artboard", "artboards"];
@@ -55,6 +67,10 @@ CodeMirror.defineMode("adobe", function(config, parserConfig) {
   return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/html"), adobeOverlay);
 
 });
+
+
+
+
 
 var cm =
 CodeMirror.fromTextArea(document.getElementById('cm'), {
@@ -100,6 +116,20 @@ function highlightLine(lineNumber) {
     // console.log(doc);
     pwDOC.addLineClass(actualLineNumber, 'gutter', 'error');
 }
+
+
+
+// var pending;
+// cm.on("change", function() {
+// 	clearTimeout(pending);
+// 	pending = setTimeout(update, 400);
+// });
+// function looksLikeScheme(code) {
+// 	return !/^\s*\(\s*function\b/.test(code) && /^\s*[;\(]/.test(code);
+// }
+// function update() {
+// 	editor.setOption("mode", looksLikeScheme(editor.getValue()) ? "mixedOverlay" : "javascript");
+// }
 
 
 cm.setSize("100%", 200);

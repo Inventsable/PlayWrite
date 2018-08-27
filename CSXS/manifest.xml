@@ -1,17 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<!-- 1) -->
 <ExtensionManifest ExtensionBundleId="com.playwrite" ExtensionBundleVersion="1.0.0" Version="7.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <ExtensionList>
-    <!-- 2) -->
     <Extension Id="com.playwrite.panel" Version="1.0.0" />
   </ExtensionList>
   <ExecutionEnvironment>
     <HostList>
-      <!-- 3) -->
-      <Host Name="AEFT" Version="15" />
-      <Host Name="ILST" Version="18" />
-      <Host Name="PHSP" Version="19" />
-      <Host Name="PHXS" Version="19" />
+      <Host Name="AEFT" Version="[15,99.9]" />
+      <Host Name="ILST" Version="[18,99.9]" />
+      <Host Name="PHSP" Version="[19,99.9]" />
+      <Host Name="PHXS" Version="[19,99.9]" />
     </HostList>
     <LocaleList>
       <Locale Code="All" />
@@ -21,14 +18,10 @@
     </RequiredRuntimeList>
   </ExecutionEnvironment>
   <DispatchInfoList>
-    <!-- 2) -->
     <Extension Id="com.playwrite.panel">
       <DispatchInfo>
         <Resources>
-          <!-- 4) -->
           <MainPath>./client/index.html</MainPath>
-          <!-- 5) -->
-          <!-- <ScriptPath>./host/index.jsx</ScriptPath> -->
           <CEFCommandLine />
         </Resources>
         <Lifecycle>
@@ -36,11 +29,9 @@
         </Lifecycle>
         <UI>
           <Type>Panel</Type>
-          <!-- 6) -->
           <Menu>PlayWrite</Menu>
           <Geometry>
             <Size>
-              <!-- 7) -->
               <Height>280</Height>
               <Width>360</Width>
             </Size>
@@ -53,7 +44,10 @@
               <Width>260</Width>
             </MinSize>
           </Geometry>
-          <Icons />
+          <Icons>
+             <Icon Type="Normal">./icons/iconLight.png</Icon>
+             <Icon Type="RollOver">./icons/iconLight.png</Icon>
+          </Icons>
         </UI>
       </DispatchInfo>
     </Extension>
