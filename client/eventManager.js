@@ -7,6 +7,8 @@
     line: "none"
   };
 
+
+
   csInterface.addEventListener('com.playwrite.init', function(evt) {
     console.log("Initializing console");
   });
@@ -14,6 +16,10 @@
   csInterface.addEventListener('com.playwrite.write', function(evt){
     updateConsole('read', evt.data);
     insertText(evt.data)
+  });
+
+  csInterface.addEventListener('mighty.rollcall', function(evt) {
+    dispatchEvent('mighty.rollanswer', extFolder())
   });
 
 
